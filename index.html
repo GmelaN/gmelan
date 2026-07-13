@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이력서 | 조승현</title>
+    <style>
+        /* 기본 스타일 초기화 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* 공통 유틸리티 */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section {
+            padding: 80px 0;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 40px;
+            color: #2c3e50;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            width: 50%;
+            height: 4px;
+            background-color: #3498db;
+            border-radius: 2px;
+        }
+
+        /* 헤더 (히어로 섹션) */
+        header {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 배경 파티클 애니메이션 */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            50% { opacity: 0.5; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+
+        .header-content {
+            z-index: 1;
+        }
+
+        .profile-img-container {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 30px;
+            border-radius: 50%;
+            padding: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .profile-img-container:hover {
+            transform: scale(1.05);
+        }
+
+        .profile-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            background-color: #ddd;
+        }
+
+        .name {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .job-title {
+            font-size: 1.5rem;
+            font-weight: 300;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .intro-text {
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0.8;
+            word-break: keep-all;
+        }
+
+        /* 스크롤 다운 인디케이터 */
+        .scroll-down {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+
+        .scroll-down:hover {
+            opacity: 1;
+        }
+
+        .scroll-down svg {
+            width: 40px;
+            height: 40px;
+            fill: white;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); }
+            40% { transform: translateY(-20px) translateX(-50%); }
+            60% { transform: translateY(-10px) translateX(-50%); }
+        }
+
+        /* About 섹션 */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 40px;
+        }
+
+        .about-info {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+            height: fit-content;
+        }
+
+        .about-info:hover {
+            transform: translateY(-5px);
+        }
+
+        .info-item {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .info-item span:first-child {
+            font-weight: 700;
+            min-width: 80px;
+            color: #3498db;
+        }
+
+        .info-item span:last-child {
+            word-break: break-all;
+        }
+
+        .about-desc p {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            color: #555;
+            word-break: keep-all;
+        }
+
+        /* Skills 섹션 */
+        .skills-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .skill-category {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .skill-category h3 {
+            margin-bottom: 20px;
+            color: #2c3e50;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 10px;
+        }
+
+        .skill-bar {
+            margin-bottom: 20px;
+        }
+
+        .skill-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .progress-bg {
+            width: 100%;
+            height: 8px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #3498db, #2ecc71);
+            border-radius: 5px;
+            width: 0;
+            transition: width 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        /* Experience 섹션 (타임라인) */
+        .timeline {
+            position: relative;
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background-color: #3498db;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            padding: 10px 30px 20px 30px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .timeline-item.right {
+            left: 50%;
+            transform: translateX(50px);
+        }
+
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            right: -10px;
+            background-color: white;
+            border: 4px solid #3498db;
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+            transition: background-color 0.3s;
+        }
+
+        .timeline-item.right::after {
+            left: -10px;
+        }
+
+        .timeline-item:hover::after {
+            background-color: #3498db;
+        }
+
+        .timeline-content {
+            padding: 15px 20px;
+            background-color: white;
+            position: relative;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .timeline-content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .timeline-date {
+            color: #3498db;
+            font-weight: 700;
+            margin-bottom: 5px;
+            display: block;
+            font-size: 0.85rem;
+        }
+
+        .timeline-title {
+            font-size: 1.15rem;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .timeline-subtitle {
+            font-size: 0.95rem;
+            color: #7f8c8d;
+            margin-bottom: 8px;
+        }
+        
+        .timeline-desc {
+            font-size: 0.85rem;
+            color: #555;
+        }
+
+        /* Portfolio 섹션 */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .portfolio-item {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .portfolio-item:hover {
+            transform: translateY(-10px);
+        }
+
+        .portfolio-header {
+            padding: 20px 20px 0 20px;
+        }
+
+        .portfolio-role {
+            font-size: 0.8rem;
+            color: #e67e22;
+            font-weight: 700;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .portfolio-date {
+            font-size: 0.8rem;
+            color: #7f8c8d;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .portfolio-title {
+            font-size: 1.3rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        .portfolio-content {
+            padding: 0 20px 20px 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .portfolio-desc {
+            color: #555;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            flex-grow: 1;
+            word-break: keep-all;
+        }
+
+        .portfolio-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .tag {
+            background-color: #f1f2f6;
+            color: #2c3e50;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* 링크 버튼 및 자격증 스타일 */
+        .project-btn-group {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .project-link-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            background-color: #24292e;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: background-color 0.2s, transform 0.2s;
+        }
+        
+        .project-link-btn:hover {
+            background-color: #000;
+            transform: translateY(-2px);
+        }
+        
+        .project-link-btn svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+        
+        .paper-link {
+            color: #2980b9;
+            text-decoration: none;
+            font-weight: 600;
+            border-bottom: 1px solid transparent;
+            transition: border-bottom-color 0.2s;
+        }
+        
+        .paper-link:hover {
+            border-bottom-color: #2980b9;
+        }
+
+        .cert-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f1f2f6;
+        }
+        
+        .cert-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        
+        .cert-info .cert-title {
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 0.95rem;
+        }
+        
+        .cert-info .cert-org {
+            font-size: 0.8rem;
+            color: #7f8c8d;
+            margin-top: 3px;
+        }
+        
+        .cert-score {
+            background-color: #e8f4fd;
+            color: #3498db;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        /* Achievements 섹션 (논문, 수상 등) */
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .achievement-box {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .achievement-box h3 {
+            margin-bottom: 20px;
+            color: #2c3e50;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .achievement-list {
+            list-style: none;
+        }
+
+        .achievement-list li {
+            margin-bottom: 15px;
+            padding-left: 15px;
+            position: relative;
+            font-size: 0.95rem;
+            color: #444;
+            line-height: 1.5;
+        }
+
+        .achievement-list li::before {
+            content: '•';
+            color: #3498db;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .achievement-date {
+            display: block;
+            font-size: 0.8rem;
+            color: #3498db;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        
+        .achievement-badge {
+            display: inline-block;
+            background-color: #ffeaa7;
+            color: #d35400;
+            font-size: 0.75rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 5px;
+            font-weight: bold;
+        }
+
+        /* Contact 섹션 */
+        .contact-content {
+            text-align: center;
+            background: white;
+            padding: 50px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .contact-text {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 30px;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .contact-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .contact-btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-3px);
+        }
+
+        /* 푸터 */
+        footer {
+            text-align: center;
+            padding: 30px;
+            background-color: #2c3e50;
+            color: white;
+        }
+
+        /* 반응형 디자인 */
+        @media screen and (max-width: 768px) {
+            .about-grid, .achievements-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline::after {
+                left: 31px;
+            }
+
+            .timeline-item {
+                width: 100%;
+                padding-left: 60px;
+                padding-right: 15px;
+                transform: translateX(-30px);
+            }
+
+            .timeline-item.right {
+                left: 0;
+                transform: translateX(-30px);
+            }
+
+            .timeline-item.visible, .timeline-item.right.visible {
+                transform: translateX(0);
+            }
+
+            .timeline-item::after, .timeline-item.right::after {
+                left: 21px;
+            }
+
+            .name {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+    <!-- 웹 폰트 (Pretendard) -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
+</head>
+<body>
+
+    <!-- Header (Hero Section) -->
+    <header id="home">
+        <div class="particles" id="particles"></div>
+        <div class="header-content">
+            <div class="profile-img-container">
+                <!-- 아바타 이미지 임시 사용 (실제 사진 경로로 변경하세요) -->
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=SeungHyeon&backgroundColor=b6e3f4" alt="프로필 이미지" class="profile-img">
+            </div>
+            <h1 class="name">조승현</h1>
+            <h2 class="job-title">Backend Developer & Researcher</h2>
+            <p class="intro-text">
+                탄탄한 CS 지식과 연구 경험을 바탕으로 견고한 서버 시스템을 설계하는 개발자입니다.<br>
+                새로운 기술을 빠르게 습득하고, 데이터와 네트워크를 다루는 일에 깊은 흥미를 느낍니다.
+            </p>
+        </div>
+        <div class="scroll-down" onclick="scrollToSection('about')">
+            <svg viewBox="0 0 24 24">
+                <path d="M7.41,8.59L12,13.17l4.59-4.58L18,10l-6,6l-6-6L7.41,8.59z"/>
+            </svg>
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section id="about" class="section container">
+        <h2 class="section-title">About Me</h2>
+        <div class="about-grid">
+            <div class="about-info">
+                <div class="info-item">
+                    <span>이름</span>
+                    <span>조승현 (Cho Seung Hyeon)</span>
+                </div>
+                <div class="info-item">
+                    <span>생년월일</span>
+                    <span>2001.08.16</span>
+                </div>
+                <div class="info-item">
+                    <span>연락처</span>
+                    <span>010-7557-4898</span>
+                </div>
+                <div class="info-item">
+                    <span>이메일</span>
+                    <span><a href="mailto:gmelanals@gmail.com" style="color: inherit; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3498db'" onmouseout="this.style.color='inherit'">gmelanals@gmail.com</a></span>
+                </div>
+                <div class="info-item">
+                    <span>주소</span>
+                    <span>경남 진주시 천수로 30</span>
+                </div>
+            </div>
+            <div class="about-desc">
+                <p>
+                    <strong>네트워크 인프라와 백엔드 아키텍처에 강점을 가진 개발자, 조승현입니다.</strong>
+                </p>
+                <p>
+                    대학 시절 무선통신 및 네트워킹 연구실에서 연구실장으로 활동하며, 프로토콜 분석 및 데이터 마이닝 관련 다수의 논문(SCI, KCI)을 집필하고 특허를 출원했습니다. 이러한 학문적 탐구는 복잡한 시스템의 원리를 분석하고 문제를 논리적으로 해결하는 역량의 밑거름이 되었습니다.
+                </p>
+                <p>
+                    동시에 학술적인 영역에만 머물지 않고, Spring, FastAPI, Docker 등을 활용한 실무적인 백엔드 프로젝트를 다수 이끌었습니다. 주식 정보 제공 서비스, AI 기반 뉴스 요약 봇 등 사용자 친화적인 서비스를 기획부터 인프라 배포까지 주도적으로 구축하며 실무 감각을 키웠습니다. 끊임없이 성장하며 비즈니스에 확실한 가치를 더하는 엔지니어가 되겠습니다.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="section container">
+        <h2 class="section-title">Certificates & Skills</h2>
+        
+        <!-- Certificates (Full Width) -->
+        <div class="certificates-container" style="margin-bottom: 30px;">
+            <div class="skill-category" style="width: 100%;">
+                <h3>Certificates</h3>
+                <div class="cert-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                    <div class="cert-item" style="border-bottom: none; padding-bottom: 0;">
+                        <div class="cert-info">
+                            <div class="cert-title">TOEIC</div>
+                            <div class="cert-org">한국TOEIC위원회 (2024)</div>
+                        </div>
+                        <div class="cert-score">820점</div>
+                    </div>
+                    <div class="cert-item" style="border-bottom: none; padding-bottom: 0;">
+                        <div class="cert-info">
+                            <div class="cert-title">한국사능력검정시험 (1급)</div>
+                            <div class="cert-org">국사편찬위원회 (2018.02)</div>
+                        </div>
+                        <div class="cert-score">합격</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="skills-container">
+            
+            <!-- Backend & Language -->
+            <div class="skill-category">
+                <h3>Backend & Languages</h3>
+                <div class="skill-bar">
+                    <div class="skill-info">
+                        <span>Java / Spring Boot</span>
+                        <span>90%</span>
+                    </div>
+                    <div class="progress-bg"><div class="progress-bar" data-width="90%"></div></div>
+                </div>
+                <div class="skill-bar">
+                    <div class="skill-info">
+                        <span>Python / FastAPI</span>
+                        <span>85%</span>
+                    </div>
+                    <div class="progress-bg"><div class="progress-bar" data-width="85%"></div></div>
+                </div>
+                <div class="skill-bar">
+                    <div class="skill-info">
+                        <span>C / C++</span>
+                        <span>80%</span>
+                    </div>
+                    <div class="progress-bg"><div class="progress-bar" data-width="80%"></div></div>
+                </div>
+                <div class="skill-bar">
+                    <div class="skill-info">
+                        <span>Kotlin</span>
+                        <span>70%</span>
+                    </div>
+                    <div class="progress-bg"><div class="progress-bar" data-width="70%"></div></div>
+                </div>
+            </div>
+
+            <!-- Database & DevOps -->
+            <div class="skill-category">
+                <h3>Database & DevOps</h3>
+                <div class="skill-bar">
+                    <div class="skill-info">
+                        <span>RDBMS (MySQL, PostgreSQL)</span>
+                        <span>85%</span>
+                    </div>
+                    <div class="progress-bg"><div class="progress-bar" data-width="85%"></div></div>
+                </div>
+                <div class="skill-bar">
+                    <div class="skill-info">
+                        <span>Docker / Jenkins</span>
+                        <span>80%</span>
+                    </div>
+                    <div class="progress-bg"><div class="progress-bar" data-width="80%"></div></div>
+                </div>
+                <div class="skill-bar">
+                    <div class="skill-info">
+                        <span>Proxmox / AWS EC2</span>
+                        <span>75%</span>
+                    </div>
+                    <div class="progress-bg"><div class="progress-bar" data-width="75%"></div></div>
+                </div>
+                <div class="skill-bar">
+                    <div class="skill-info">
+                        <span>Git / GitHub</span>
+                        <span>90%</span>
+                    </div>
+                    <div class="progress-bg"><div class="progress-bar" data-width="90%"></div></div>
+                </div>
+            </div>
+
+            <!-- Others -->
+            <div class="skill-category">
+                <h3>Research & Others</h3>
+                <div class="skill-bar">
+                    <div class="skill-info">
+                        <span>NS-3 (Network Simulator)</span>
+                        <span>85%</span>
+                    </div>
+                    <div class="progress-bg"><div class="progress-bar" data-width="85%"></div></div>
+                </div>
+                <div class="skill-bar">
+                    <div class="skill-info">
+                        <span>LLM (Gemma, LLAMA3) 적용</span>
+                        <span>70%</span>
+                    </div>
+                    <div class="progress-bg"><div class="progress-bar" data-width="70%"></div></div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Experience & Education Section -->
+    <section id="experience" class="section container">
+        <h2 class="section-title">Experience & Education</h2>
+        <div class="timeline">
+            
+            <div class="timeline-item left">
+                <div class="timeline-content">
+                    <span class="timeline-date">2025.01 - 2026.02</span>
+                    <h3 class="timeline-title">연구실장</h3>
+                    <h4 class="timeline-subtitle">경상국립대학교 무선통신 및 네트워킹 연구실</h4>
+                    <p class="timeline-desc">랩실 운영 총괄 및 5G NR, 무선 센서 네트워크 프로토콜 아키텍처 개선 연구 주도. SCI급 및 국내외 다수 논문 게재.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item right">
+                <div class="timeline-content">
+                    <span class="timeline-date">2020.03 - 2026.02</span>
+                    <h3 class="timeline-title">컴퓨터공학과 (공학학사)</h3>
+                    <h4 class="timeline-subtitle">경상국립대학교</h4>
+                    <p class="timeline-desc">학점: 4.14 / 4.5 (전공), 4.01 / 4.5 (전체).<br>알고리즘, 데이터 구조, 소프트웨어 공학 등 CS 심화 이수.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item left">
+                <div class="timeline-content">
+                    <span class="timeline-date">2023.11 - 2024.12</span>
+                    <h3 class="timeline-title">연구원</h3>
+                    <h4 class="timeline-subtitle">경상국립대학교 무선통신 및 네트워킹 연구실</h4>
+                    <p class="timeline-desc">네트워크 프로토콜 성능 개선 연구 수행. IP 카메라 보안성 강화 시스템 특허 출원 등 실적 달성.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item right">
+                <div class="timeline-content">
+                    <span class="timeline-date">2017.03 - 2020.02</span>
+                    <h3 class="timeline-title">일반계 졸업</h3>
+                    <h4 class="timeline-subtitle">진주고등학교</h4>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Projects Portfolio Section -->
+    <section id="portfolio" class="section container">
+        <h2 class="section-title">Projects</h2>
+        <div class="portfolio-grid">
+            
+            <div class="portfolio-item">
+                <div class="portfolio-header">
+                    <span class="portfolio-role">개인 프로젝트</span>
+                    <span class="portfolio-date">2026. 05. ~ 진행중</span>
+                    <h3 class="portfolio-title">FinDART: 재무제표 기반 기업 건전성 분석 서비스</h3>
+                </div>
+                <div class="portfolio-content">
+                    <p class="portfolio-desc">기업의 재무 데이터를 수집 및 가공하여 재무 건전성을 분석하고 시각화하여 제공하는 서버 및 API 개발.</p>
+                    <div class="portfolio-tags">
+                        <span class="tag">FastAPI</span>
+                        <span class="tag">PostgreSQL</span>
+                        <span class="tag">Docker</span>
+                        <span class="tag">Jenkins</span>
+                    </div>
+                    <div class="project-btn-group">
+                        <a href="https://github.com/GmelaN/FinDART" target="_blank" class="project-link-btn">
+                            <svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.161 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+                            GitHub
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="portfolio-item">
+                <div class="portfolio-header">
+                    <span class="portfolio-role">팀 프로젝트 (서버 개발 & 데이터 수집)</span>
+                    <span class="portfolio-date">2025. 03. ~ 2025. 07.</span>
+                    <h3 class="portfolio-title">보이지 않는 손: 주식 투자 정보 제공 서비스</h3>
+                </div>
+                <div class="portfolio-content">
+                    <p class="portfolio-desc">주식 관련 데이터 파이프라인을 구축하고 Gemma LLM을 활용하여 투자 정보를 가공, 제공하는 백엔드 개발.</p>
+                    <div class="portfolio-tags">
+                        <span class="tag">Spring</span>
+                        <span class="tag">Python</span>
+                        <span class="tag">MariaDB</span>
+                        <span class="tag">Gemma</span>
+                    </div>
+                    <div class="project-btn-group">
+                        <a href="https://github.com/GNU-CSE-Invisible-Hand" target="_blank" class="project-link-btn">
+                            <svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.161 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+                            GitHub
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="portfolio-item">
+                <div class="portfolio-header">
+                    <span class="portfolio-role">개인 프로젝트 (테스트베드 개발)</span>
+                    <span class="portfolio-date">2025. 02. ~ 2025. 07.</span>
+                    <h3 class="portfolio-title">NS-3 LR-WPAN CSMA/CA 모듈 개발</h3>
+                </div>
+                <div class="portfolio-content">
+                    <p class="portfolio-desc">저전력 무선 통신 네트워크(LR-WPAN) 프로토콜 성능 분석을 위한 NS-3 시뮬레이터 테스트베드 모듈 설계 및 구현.</p>
+                    <div class="portfolio-tags">
+                        <span class="tag">C++</span>
+                        <span class="tag">NS-3</span>
+                        <span class="tag">CMake</span>
+                    </div>
+                    <div class="project-btn-group">
+                        <a href="https://github.com/GmelaN/lr-wpan-csma-testbed" target="_blank" class="project-link-btn">
+                            <svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.161 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+                            GitHub
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="portfolio-item">
+                <div class="portfolio-header">
+                    <span class="portfolio-role">팀 프로젝트 (서버 배포 & 데이터 수집)</span>
+                    <span class="portfolio-date">2024. 09. ~ 2024. 12.</span>
+                    <h3 class="portfolio-title">AlimExpress: 뉴스 요약 정보 서비스</h3>
+                </div>
+                <div class="portfolio-content">
+                    <p class="portfolio-desc">LLAMA3를 로컬에서 구동 및 연동하여 실시간 뉴스를 요약하고 사용자에게 알림을 제공하는 봇 서비스의 인프라 및 서버 개발.</p>
+                    <div class="portfolio-tags">
+                        <span class="tag">Spring</span>
+                        <span class="tag">Python</span>
+                        <span class="tag">LLAMA3</span>
+                    </div>
+                    <div class="project-btn-group">
+                        <a href="https://github.com/GNU-CSE-AlimExpress" target="_blank" class="project-link-btn">
+                            <svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.161 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+                            GitHub
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="portfolio-item">
+                <div class="portfolio-header">
+                    <span class="portfolio-role">팀 프로젝트 (서버 개발)</span>
+                    <span class="portfolio-date">2023. 03. ~ 2024. 08.</span>
+                    <h3 class="portfolio-title">TALCHWI: IP 카메라 보안 프레임워크</h3>
+                </div>
+                <div class="portfolio-content">
+                    <p class="portfolio-desc">가정용/산업용 IP 카메라의 취약점을 방어하기 위한 보안 강화 백엔드 프레임워크 개발 (관련 특허 출원 완료).</p>
+                    <div class="portfolio-tags">
+                        <span class="tag">Spring</span>
+                        <span class="tag">SQLite</span>
+                    </div>
+                    <div class="project-btn-group">
+                        <a href="https://github.com/GNU-CSE-Pioneer-TALCHWI" target="_blank" class="project-link-btn">
+                            <svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.161 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+                            GitHub
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="portfolio-item">
+                <div class="portfolio-header">
+                    <span class="portfolio-role">동아리 팀 프로젝트 (서버 개발)</span>
+                    <span class="portfolio-date">2024. 00. ~ 2024. 00.</span>
+                    <h3 class="portfolio-title">DayRecord: 일상 기록 서비스</h3>
+                </div>
+                <div class="portfolio-content">
+                    <p class="portfolio-desc">일상 기록 및 공유 서비스의 백엔드 및 인프라 구축.</p>
+                    <div class="portfolio-tags">
+                        <span class="tag">Spring</span>
+                        <span class="tag">MySQL/MariaDB</span>
+                    </div>
+                    <div class="project-btn-group">
+                        <a href="https://github.com/UMC-DayRecord/BackEnd" target="_blank" class="project-link-btn">
+                            <svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.161 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+                            GitHub
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="portfolio-item">
+                <div class="portfolio-header">
+                    <span class="portfolio-role">해커톤 팀 프로젝트 (서버 개발)</span>
+                    <span class="portfolio-date">2024. 01.</span>
+                    <h3 class="portfolio-title">Sally: 독서 목표 달성 도우미</h3>
+                </div>
+                <div class="portfolio-content">
+                    <p class="portfolio-desc">독서 목표 달성 도우미 서비스의 백엔드 및 인프라 구축.</p>
+                    <div class="portfolio-tags">
+                        <span class="tag">Spring</span>
+                        <span class="tag">MySQL/MariaDB</span>
+                    </div>
+                    <div class="project-btn-group">
+                        <a href="https://github.com/UMC-5th-M-team" target="_blank" class="project-link-btn">
+                            <svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.161 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+                            GitHub
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="portfolio-item">
+                <div class="portfolio-header">
+                    <span class="portfolio-role">해커톤 팀 프로젝트 (서버 개발)</span>
+                    <span class="portfolio-date">2024. 01. ~ 2024. 02.</span>
+                    <h3 class="portfolio-title">광장으로 광장: 소상공인 수요 예측 서비스</h3>
+                </div>
+                <div class="portfolio-content">
+                    <p class="portfolio-desc">지역 상권 데이터를 분석하여 소상공인에게 맞춤형 수요 예측 정보를 제공하는 서비스의 백엔드 및 인프라 구축.</p>
+                    <div class="portfolio-tags">
+                        <span class="tag">FastAPI</span>
+                        <span class="tag">DynamoDB</span>
+                        <span class="tag">AWS EC2</span>
+                    </div>
+                    <div class="project-btn-group">
+                        <a href="https://github.com/GmelaN/2024-AWS-hackathon" target="_blank" class="project-link-btn">
+                            <svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.161 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+                            GitHub
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Research, Patents & Awards Section -->
+    <section id="achievements" class="section container">
+        <h2 class="section-title">Research & Awards</h2>
+        <div class="achievements-grid">
+            
+            <!-- 논문 및 특허 -->
+            <div class="achievement-box">
+                <h3>Papers & Patents</h3>
+                <ul class="achievement-list">
+                    <li>
+                        <span class="achievement-date">2025. 12.</span>
+                        (제1저자) <a href="https://ieeexplore.ieee.org/document/11224910" target="_blank" class="paper-link">A Nonuniform Probabilistic Backoff Algorithm in IEEE 802.15.6-Based Wireless Body Area Networks</a><span class="achievement-badge">SCI (IF: 8.9)</span>
+                    </li>
+                    <li>
+                        <span class="achievement-date">2025. 07.</span>
+                        (제1저자) <a href="https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE12318593" target="_blank" class="paper-link">TSCH 네트워크의 간섭 완화를 위한 Q-learning 기반 Hopping Sequence 최적화 기법</a>
+ <span class="achievement-badge">국내 학회</span>
+                    </li>
+                    <li>
+                        <span class="achievement-date">2025. 02.</span>
+                        (제1저자) <a href="https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE12132301" target="_blank" class="paper-link">FlexRIC 및 NS-3 기반의 O-RAN 시뮬레이션 환경 개발 및 검증</a>
+                        <span class="achievement-badge">국내 학회</span>
+
+                    </li>
+                    <li>
+                        <span class="achievement-date">2025. 02.</span>
+                        (제1저자) <a href="https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE11909743" target="_blank" class="paper-link">개인화된 무선 인체 영역 네트워크에서 Q-learning을 이용한 적응적 스케줄링 기법</a>
+                        <span class="achievement-badge">KCI</span>
+                    </li>
+
+                    
+                    <li>
+                        <span class="achievement-date">2024. 11.</span>
+                        (특허 출원) IP 카메라의 보안 강화 시스템 및 방법 (10-2024-0168791)
+                    </li>
+                    <li>
+                        <span class="achievement-date">2024. 09.</span>
+                        (공동저자) <a href="https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART003128565" target="_blank" class="paper-link">IP 카메라의 보안 취약점과 보안성 강화에 관한 연구</a>
+ <span class="achievement-badge">KCI</span>
+                    </li>
+                    <li>
+                        <span class="achievement-date">2021. 06.</span>
+                        (공동저자) <a href="https://www.earticle.net/Article/A395435" target="_blank" class="paper-link">COVID-19와 코스피 및 헬스케어 산업의 영향 관계 규명과 패턴 분석 연구</a>
+                        <span class="achievement-badge">국내 학회</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 수상 내역 -->
+            <div class="achievement-box">
+                <h3>Honors & Awards</h3>
+                <ul class="achievement-list">
+                    <li>
+                        <span class="achievement-date">2025. 12. 15.</span>
+                        경상국립대학교 컴퓨터공학과 소프트웨어 전시회 <strong>최우수상</strong>
+                    </li>
+                    <li>
+                        <span class="achievement-date">2025. 01. 21.</span>
+                        경상국립대학교 개척학기제 성과발표회 <strong>입상</strong>
+                    </li>
+                    <li>
+                        <span class="achievement-date">2024. 07. 30.</span>
+                        경상국립대학교 개척학기제 성과발표회 <strong>장려상</strong>
+                    </li>
+                    <li>
+                        <span class="achievement-date">2024. 02. 01.</span>
+                        AWS 빅데이터 캠프 <strong>3등상</strong> (빅데이터 혁신융합대학 사업단)
+                    </li>
+                    <li>
+                        <span class="achievement-date">2023. 11. 22.</span>
+                        자연과학대학 창의력 경진대회 <strong>발표상</strong>
+                    </li>
+                    <li>
+                        <span class="achievement-date">2021. 06. 19.</span>
+                        2021 경영정보관련 춘계통합학술대회 <strong>최우수논문상</strong>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section container">
+        <h2 class="section-title">Contact</h2>
+        <div class="contact-content">
+            <p class="contact-text">
+                저의 이력서를 끝까지 검토해 주셔서 감사합니다.<br>
+                견고한 서버와 안정적인 데이터 파이프라인을 구축할 팀을 찾고 있습니다. 언제든지 연락 주세요!
+            </p>
+            <div class="contact-links">
+                <a href="mailto:gmelanals@gmail.com" class="contact-btn">이메일 보내기</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Cho Seung Hyeon. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // 스무스 스크롤 함수
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            window.scrollTo({
+                top: section.offsetTop,
+                behavior: 'smooth'
+            });
+        }
+
+        // 스크롤 이벤트 애니메이션
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('.section');
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            const progressBars = document.querySelectorAll('.progress-bar');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15 // 화면에 조금 더 빨리 나타나도록 수정
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // 섹션 페이드인
+                        if (entry.target.classList.contains('section')) {
+                            entry.target.classList.add('visible');
+                        }
+
+                        // 스킬바 애니메이션
+                        if (entry.target.id === 'skills') {
+                            progressBars.forEach(bar => {
+                                bar.style.width = bar.getAttribute('data-width');
+                            });
+                        }
+
+                        // 타임라인 아이템 애니메이션
+                        if (entry.target.id === 'experience') {
+                            timelineItems.forEach((item, index) => {
+                                setTimeout(() => {
+                                    item.classList.add('visible');
+                                }, index * 200);
+                            });
+                        }
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            // 배경 파티클 생성 로직
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 20;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // 랜덤 속성 설정
+                const size = Math.random() * 15 + 5;
+                const left = Math.random() * 100;
+                const top = Math.random() * 100 + 100; // 아래에서 시작
+                const duration = Math.random() * 10 + 10;
+                const delay = Math.random() * 10;
+
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${left}%`;
+                particle.style.top = `${top}%`;
+                particle.style.animationDuration = `${duration}s`;
+                particle.style.animationDelay = `${delay}s`;
+
+                particlesContainer.appendChild(particle);
+            }
+        });
+    </script>
+</body>
+</html>
